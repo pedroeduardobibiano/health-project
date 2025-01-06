@@ -10,8 +10,8 @@ import java.sql.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @Entity
 @Table(name = "tb_paciente")
 public class Paciente {

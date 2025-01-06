@@ -1,0 +1,1 @@
+INSERT INTO tb_paciente (name, cpf, data_Nascimento, rg) VALUES ('Pedro Bibiano','45123647890', '2022-05-08', '124567891')

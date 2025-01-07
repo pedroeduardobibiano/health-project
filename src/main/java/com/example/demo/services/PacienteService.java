@@ -25,20 +25,40 @@ public class PacienteService {
 
     @Transactional(readOnly = true)
     public PacienteDTO findById(Long id) {
-        Optional<Paciente> paciente = pacienteRepository.findById(id);
-        paciente.orElseThrow(() -> new NoSuchElementException("Id not found"));
-        return new PacienteDTO(paciente.get());
+        Paciente paciente = getId(id);
+        return new PacienteDTO(paciente);
     }
 
     @Transactional
     public PacienteDTO save(PacienteDTO pacienteDTO) {
-        Paciente save = getPaciente(pacienteDTO);
+        Paciente save = getPaciente(new Paciente(), pacienteDTO);
         return new PacienteDTO(save);
 
     }
 
-    private Paciente getPaciente(PacienteDTO pacienteDTO) {
-        Paciente paciente = new Paciente();
+
+    @Transactional
+    public PacienteDTO update(Long id, PacienteDTO pacienteDTO) {
+        Paciente paciente = pacienteRepository.getReferenceById(id);
+        return new PacienteDTO(getPaciente(paciente, pacienteDTO));
+
+    }
+
+    @Transactional
+    public PacienteDTO deleteById(Long id) {
+        Paciente paciente = getId(id);
+        pacienteRepository.delete(paciente);
+        return new PacienteDTO(paciente);
+    }
+
+    @Transactional
+    public Paciente getId(Long id) {
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+        return paciente.orElseThrow(() -> new NoSuchElementException("Id not found"));
+    }
+
+
+    private Paciente getPaciente(Paciente paciente, PacienteDTO pacienteDTO) {
         paciente.setCpf(pacienteDTO.getCpf());
         paciente.setName(pacienteDTO.getName());
         paciente.setDataNascimento(pacienteDTO.getDataNascimento());

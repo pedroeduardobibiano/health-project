@@ -36,5 +36,17 @@ public class PacienteResource {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<PacienteDTO> update(@PathVariable Long id, @RequestBody PacienteDTO pacienteDTO) {
+        PacienteDTO dto = pacienteService.update(id, pacienteDTO);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<PacienteDTO> delete(@PathVariable Long id) {
+        PacienteDTO dto = pacienteService.deleteById(id);
+        return new ResponseEntity<>(dto, HttpStatus.NO_CONTENT);
+    }
+
 
 }

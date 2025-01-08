@@ -23,12 +23,17 @@ public class MedicoResource {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<MedicoDTO> findAll(@PathVariable Long id) {
         MedicoDTO dto = medicoService.findById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+
+    @PostMapping
+    public ResponseEntity<MedicoDTO> insert(@RequestBody MedicoDTO medicoDTO) {
+        MedicoDTO dto = medicoService.save(medicoDTO);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
 
 }

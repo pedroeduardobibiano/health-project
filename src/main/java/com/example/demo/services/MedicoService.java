@@ -31,4 +31,20 @@ public class MedicoService {
         return new MedicoDTO(medico.get());
     }
 
+    @Transactional
+    public MedicoDTO save(MedicoDTO medicoDTO) {
+        Medico medico = getMedico(medicoDTO);
+        return new MedicoDTO(medicoRepository.save(medico));
+
+    }
+
+    private static Medico getMedico(MedicoDTO medicoDTO) {
+        Medico medico = new Medico();
+        medico.setName(medicoDTO.getName());
+        medico.setArea(medicoDTO.getArea());
+        medico.setCrm(medicoDTO.getCrm());
+        medico.setAvaliacao(medicoDTO.getAvaliacao());
+        return medico;
+    }
+
 }

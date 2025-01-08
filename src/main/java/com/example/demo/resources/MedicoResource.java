@@ -36,4 +36,17 @@ public class MedicoResource {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<MedicoDTO> update(@PathVariable Long id, @RequestBody MedicoDTO medicoDTO) {
+        MedicoDTO dto = medicoService.update(id, medicoDTO);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        medicoService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
 }

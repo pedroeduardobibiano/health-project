@@ -26,20 +26,39 @@ public class MedicoService {
 
     @Transactional(readOnly = true)
     public MedicoDTO findById(Long id) {
-        Optional<Medico> medico = medicoRepository.findById(id);
-        medico.orElseThrow(() -> new NoSuchElementException("id not found"));
-        return new MedicoDTO(medico.get());
+        Medico medico = getMedico(id);
+        return new MedicoDTO(medico);
     }
+
 
     @Transactional
     public MedicoDTO save(MedicoDTO medicoDTO) {
-        Medico medico = getMedico(medicoDTO);
+        Medico medico = getMedico(new Medico(), medicoDTO);
         return new MedicoDTO(medicoRepository.save(medico));
 
     }
 
-    private static Medico getMedico(MedicoDTO medicoDTO) {
-        Medico medico = new Medico();
+    @Transactional
+    public MedicoDTO update(Long id, MedicoDTO medicoDTO) {
+        Medico medico = medicoRepository.getReferenceById(id);
+        getMedico(medico, medicoDTO);
+        return new MedicoDTO(medicoRepository.save(medico));
+    }
+
+    @Transactional
+    public MedicoDTO deleteById(Long id) {
+        Medico medico = getMedico(id);
+        medicoRepository.delete(medico);
+        return new MedicoDTO(medico);
+    }
+
+    private Medico getMedico(Long id) {
+        Optional<Medico> medico = medicoRepository.findById(id);
+        return medico.orElseThrow(() -> new NoSuchElementException("id not found"));
+    }
+
+
+    private static Medico getMedico(Medico medico, MedicoDTO medicoDTO) {
         medico.setName(medicoDTO.getName());
         medico.setArea(medicoDTO.getArea());
         medico.setCrm(medicoDTO.getCrm());

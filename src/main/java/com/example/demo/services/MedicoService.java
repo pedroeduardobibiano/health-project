@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +22,13 @@ public class MedicoService {
     public List<MedicoDTO> findAll() {
         List<Medico> medicos = medicoRepository.findAll();
         return medicos.stream().map(MedicoDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public MedicoDTO findById(Long id) {
+        Optional<Medico> medico = medicoRepository.findById(id);
+        medico.orElseThrow(() -> new NoSuchElementException("id not found"));
+        return new MedicoDTO(medico.get());
     }
 
 }

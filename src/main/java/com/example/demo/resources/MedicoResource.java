@@ -5,9 +5,7 @@ import com.example.demo.services.MedicoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +20,13 @@ public class MedicoResource {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<MedicoDTO>> findAll() {
         List<MedicoDTO> dto = medicoService.findAll();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<MedicoDTO> findAll(@PathVariable Long id) {
+        MedicoDTO dto = medicoService.findById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

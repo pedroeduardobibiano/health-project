@@ -3,12 +3,12 @@ package com.example.demo.services;
 import com.example.demo.dtos.PacienteDTO;
 import com.example.demo.entities.Paciente;
 import com.example.demo.repositories.PacienteRepository;
+import com.example.demo.services.exeptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -36,7 +36,6 @@ public class PacienteService {
 
     }
 
-
     @Transactional
     public PacienteDTO update(Long id, PacienteDTO pacienteDTO) {
         Paciente paciente = pacienteRepository.getReferenceById(id);
@@ -54,7 +53,7 @@ public class PacienteService {
     @Transactional
     public Paciente getId(Long id) {
         Optional<Paciente> paciente = pacienteRepository.findById(id);
-        return paciente.orElseThrow(() -> new NoSuchElementException("Id not found"));
+        return paciente.orElseThrow(() -> new EntityNotFoundException("Id not found"));
     }
 
 

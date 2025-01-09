@@ -4,12 +4,13 @@ package com.example.demo.services;
 import com.example.demo.dtos.MedicoDTO;
 import com.example.demo.entities.Medico;
 import com.example.demo.repositories.MedicoRepository;
+import com.example.demo.services.exeptions.DatabaseException;
+import com.example.demo.services.exeptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -45,16 +46,20 @@ public class MedicoService {
         return new MedicoDTO(medicoRepository.save(medico));
     }
 
-    @Transactional
-    public MedicoDTO deleteById(Long id) {
+    @Transactional(rollbackFor = DatabaseException.class)
+    public void deleteById(Long id) {
         Medico medico = getMedico(id);
-        medicoRepository.delete(medico);
-        return new MedicoDTO(medico);
+        try {
+            medicoRepository.delete(medico);
+        } catch (RuntimeException e) {
+            throw new DatabaseException("Database Integrity Violation");
+        }
     }
+
 
     private Medico getMedico(Long id) {
         Optional<Medico> medico = medicoRepository.findById(id);
-        return medico.orElseThrow(() -> new NoSuchElementException("id not found"));
+        return medico.orElseThrow(() -> new EntityNotFoundException("id not found"));
     }
 
 

@@ -3,6 +3,7 @@ package com.example.demo.resources;
 
 import com.example.demo.dtos.PacienteDTO;
 import com.example.demo.services.PacienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class PacienteResource {
     }
 
     @PostMapping
-    public ResponseEntity<PacienteDTO> save(@RequestBody PacienteDTO pacienteDTO) {
+    public ResponseEntity<PacienteDTO> save(@Valid @RequestBody PacienteDTO pacienteDTO) {
         PacienteDTO dto = pacienteService.save(pacienteDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }

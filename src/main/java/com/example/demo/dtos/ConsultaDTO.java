@@ -17,8 +17,14 @@ import java.time.Instant;
 public class ConsultaDTO {
 
     private Long id;
+
+
     private Instant dataConsulta;
+
+
     private Paciente paciente;
+
+
     private Medico medico;
 
 

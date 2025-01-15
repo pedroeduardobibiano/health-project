@@ -1,6 +1,9 @@
 package com.example.demo.dtos;
 
 import com.example.demo.entities.Medico;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +17,11 @@ public class MedicoDTO {
 
     private Long id;
 
+    @Size(min = 3, max = 60, message = "Nome invalido (maximo 60 caracteres, min 3)")
+    @NotBlank(message = "Campo requerido")
     private String name;
 
+    @NotBlank(message = "Campo requerido")
     private String crm;
 
     private String area;
